@@ -25,7 +25,7 @@ return m;
 }
 
 // Naive Matrix Multiplication - O(n^3)
-Matrix multiplyNaive(const Matrix& A, constMatrix& B, int block = 32) {
+Matrix multiplyNaive(const Matrix& A, constMatrix& B) {
   int n = A.size();
   Matrix C(n, vector<double>(n,0));
 
@@ -36,6 +36,24 @@ Matrix multiplyNaive(const Matrix& A, constMatrix& B, int block = 32) {
 
 return C;
 }
+
+// Cache Blocked Matrix Multiplication
+Matrix multiplyBlocked(const Matrix& A, constMatrix& B, int block = 32) {
+  int n = A.size();
+  Matrix C(n, vector<double>(n,0));
+
+  for (int ii = 0; ii < n; ii += block)
+    for (int jj = 0; jj < n; jj += block)
+      for (int kk = 0; kk < n; kk += block)
+
+        for (int i = ii; i < min(ii + block, n); i++)
+          for (int j = jj; j < min(jj + block, n); j++)
+            for (int k = kk; k < min(kk + block, n); k++)
+              C[i][j] += A[i][k] * B[k][j];
+              
+return C;
+}
+
 
 
 
