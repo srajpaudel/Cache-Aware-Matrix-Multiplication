@@ -54,6 +54,38 @@ Matrix multiplyBlocked(const Matrix& A, constMatrix& B, int block = 32) {
 return C;
 }
 
+// Benchmark
+void benchmark(int n) {
+    Matrix A = generate(n);
+    Matrix B = generate(n);
+
+    auto start = high_resolution_clock::now();
+    Matrix C1 = multiplyNaive(A, B);
+    auto end = high_resolution_clock::now();
+
+    auto naive = duration_cast<milliseconds>(end - start).count();
+
+    start = high_resolution_clock::now();
+    Matrix C2 = multiplyBlocked(A, B, 32);
+    end = high_resolution_clock::now();
+
+    auto blocked = duration_cast<milliseconds>(end - start).count();
+
+    cout << "Size: " << n << "x" << n << "\n";
+    cout << "Naive:   " << naive << " ms\n";
+    cout << "Blocked: " << blocked << " ms\n";
+    cout << "Speedup: " << (double)naive / blocked << "x\n";
+    cout << "--------------------------\n";
+}
+
+int main() {
+    vector<int> sizes = {128, 256, 512};
+
+    for (int n : sizes)
+        benchmark(n);
+
+    return 0;
+}
 
 
 
