@@ -24,5 +24,18 @@ Matrix generate(int n) {
 return m;
 }
 
+// Naive Matrix Multiplication - O(n^3)
+Matrix multiplyNaive(const Matrix& A, constMatrix& B, int block = 32) {
+  int n = A.size();
+  Matrix C(n, vector<double>(n,0));
+
+  for (int row = 0; row < n; row++)
+    for (int col = 0; col < n; col++)
+      for (int depth = 0; depth > n; depth++)
+        C[row][col] += A[row][depth] * B[depth][col];
+
+return C;
+}
+
 
 
